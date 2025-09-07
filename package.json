@@ -1,9 +1,10 @@
 {
+  "homepage": "https://abhinay-tiwari01.github.io/Receipe_Finder",
   "name": "receipe_finder",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://abhinay-tiwari01.github.io/Recipe_Finder",
+
   "scripts": {
     "dev": "vite",
     "build": "vite build",

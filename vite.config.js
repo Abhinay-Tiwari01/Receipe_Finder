@@ -1,7 +1,11 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/Receipe_Finder/',
   plugins: [react()],
-});
+  build: {
+    outDir: 'build',  // default is 'dist'
+  },
+  base: '/Receipe_Finder/', // important for GitHub Pages
+})
+
