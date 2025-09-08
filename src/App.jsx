@@ -31,12 +31,15 @@ function App() {
     }
     return cards;
   };
- const slideNext = () => {
-  setStartIndex(prev => prev + 1);
+const cards = getVisibleCards();
+ const totalCards = cards.length;
+
+const slideNext = () => {
+  setStartIndex(prev => (prev + 1) % totalCards);
 };
 
 const slidePrev = () => {
-  setStartIndex(prev => prev - 1);
+  setStartIndex(prev => (prev - 1 + totalCards) % totalCards);
 };
 
 
@@ -101,17 +104,6 @@ const slidePrev = () => {
                       onClick={() => setSelectedRecipe(recipe)}
                     />
                   ))}
-                  {/* <div
-                  className="cards-inner"
-                  style={{ transform: `translateX(-${startIndex * (100 / visibleCards)}%)` }}
-                >
-                  {recipes.map((recipe) => (
-                    <RecipeCard
-                      key={recipe.idMeal}
-                      recipe={recipe}
-                      onClick={() => setSelectedRecipe(recipe)}
-                    />
-                  ))} */}
                 </div>
 
 
