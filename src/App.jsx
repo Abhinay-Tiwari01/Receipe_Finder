@@ -1,14 +1,17 @@
 // src/App.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SearchBar from './Component/SearchBar';
 import RecipeCard from './Component/ReceipeCard';
+import FilterButton from './Component/FIlterButton';
 import './style.css';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [recipes, setRecipes] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVegOnly, setIsVegOnly] = useState(false);
   const sliderRef = useRef(null); // reference to scroll container
 
   // Scroll function for arrows
@@ -23,11 +26,11 @@ function App() {
   const visibleCards = 3;
 
   const getVisibleCards = () => {
-    if (recipes.length === 0) return [];
+    if (filteredRecipes.length === 0) return [];
     const cards = [];
     for (let i = 0; i < visibleCards; i++) {
-      const index = (startIndex + i) % recipes.length; // wrap around
-      cards.push(recipes[index]);
+      const index = (startIndex + i) % filteredRecipes.length; // wrap around
+      cards.push(filteredRecipes[index]);
     }
     return cards;
   };
@@ -42,6 +45,38 @@ const slidePrev = () => {
   setStartIndex(prev => (prev - 1 + totalCards) % totalCards);
 };
 
+  // Filter recipes based on isVegOnly
+  useEffect(() => {
+    if (isVegOnly) {
+      const vegFiltered = recipes.filter(recipe => {
+        // Simple filter: exclude recipes with meat, fish, or poultry keywords in category or tags
+        const category = recipe.strCategory ? recipe.strCategory.toLowerCase() : '';
+        const tags = recipe.strTags ? recipe.strTags.toLowerCase() : '';
+        if (
+          category.includes('beef') ||
+          category.includes('chicken') ||
+          category.includes('pork') ||
+          category.includes('lamb') ||
+          category.includes('fish') ||
+          category.includes('seafood') ||
+          category.includes('meat') ||
+          tags.includes('meat') ||
+          tags.includes('fish') ||
+          tags.includes('chicken') ||
+          tags.includes('pork') ||
+          tags.includes('beef') ||
+          tags.includes('lamb') ||
+          tags.includes('seafood')
+        ) {
+          return false;
+        }
+        return true;
+      });
+      setFilteredRecipes(vegFiltered);
+    } else {
+      setFilteredRecipes(recipes);
+    }
+  }, [isVegOnly, recipes]);
 
   // Fetch recipes from API
   const fetchRecipes = async () => {
@@ -65,7 +100,7 @@ const slidePrev = () => {
     <div className="app">
       {/* Main container: left + right panels */}
       <div className="main-container">
-        {/* Left panel: title + search bar */}
+        {/* Left panel: title + search bar + filter */}
         <div className="left-panel">
           <header>
             <h1>🍔 Recipe Finder for Foodies</h1>
@@ -75,13 +110,14 @@ const slidePrev = () => {
             setSearchQuery={setSearchQuery}
             onSearch={fetchRecipes}
           />
+          <FilterButton isVegOnly={isVegOnly} setIsVegOnly={setIsVegOnly} />
         </div>
 
         {/* Right panel: slider with recipe cards */}
         <div className="right-panel">
           {isLoading ? (
             <p>Loading recipes...</p>
-          ) : recipes.length > 0 ? (
+          ) : filteredRecipes.length > 0 ? (
             <div className="slider-wrapper">
               <div className='left-arrow'>
                 {/* <button className="slider-arrow left" onClick={() => scroll(-250)}> */}
@@ -97,7 +133,7 @@ const slidePrev = () => {
                     transform: `translateX(-${startIndex * (100 / visibleCards)}%)`,
                   }}
                 >
-                  {recipes.concat(recipes.slice(0, visibleCards)).map((recipe, index) => (
+                  {filteredRecipes.concat(filteredRecipes.slice(0, visibleCards)).map((recipe, index) => (
                     <RecipeCard
                       key={recipe.idMeal + index} // unique key
                       recipe={recipe}

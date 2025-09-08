@@ -205,3 +205,66 @@ header h1 {
   padding: 0 20px;
   overflow-y: auto;
 }
+
+/* Filter Button Styles */
+.filter-container {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.filter-label {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  cursor: pointer;
+}
+
+.filter-checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.filter-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.filter-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.filter-checkbox:checked + .filter-slider {
+  background-color: #4CAF50;
+}
+
+.filter-checkbox:checked + .filter-slider:before {
+  transform: translateX(26px);
+}
+
+.filter-text {
+  position: absolute;
+  top: 50%;
+  left: 70px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap;
+}
