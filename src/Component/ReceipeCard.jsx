@@ -2,7 +2,7 @@ import React from 'react';
 
 function RecipeCard({ recipe ,onClick}) {
   // Determine the valid URL
-  const recipeLink = recipe.strSource || recipe.strYoutube || '#';
+  // const recipeLink = recipe.strSource || recipe.strYoutube || '#';
 
   return (
     <div className="recipe-card" onClick={onClick}>
