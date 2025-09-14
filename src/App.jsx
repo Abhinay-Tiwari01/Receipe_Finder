@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, /*useRef ,*/ useEffect } from 'react';
 import SearchBar from './Component/SearchBar';
 import RecipeCard from './Component/ReceipeCard';
 import FilterButton from './Component/FIlterButton';
@@ -12,14 +12,14 @@ function App() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isVegOnly, setIsVegOnly] = useState(false);
-  const sliderRef = useRef(null); // reference to scroll container
+  // const sliderRef = useRef(null); // reference to scroll container
 
   // Scroll function for arrows
-  const scroll = (offset) => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: offset, behavior: 'smooth' });
-    }
-  };
+  // const scroll = (offset) => {
+  //   if (sliderRef.current) {
+  //     sliderRef.current.scrollBy({ left: offset, behavior: 'smooth' });
+  //   }
+  // };
 
   const [startIndex, setStartIndex] = useState(0);
 
